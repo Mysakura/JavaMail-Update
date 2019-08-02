@@ -1,4 +1,4 @@
-package com.demo;
+package com.demo.security;
 
 import org.springframework.util.StringUtils;
 

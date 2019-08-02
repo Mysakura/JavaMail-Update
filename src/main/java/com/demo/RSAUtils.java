@@ -19,6 +19,7 @@ public class RSAUtils {
      * 加密（对外暴露）
      * 如果使用 公钥 对数据 进行加密，只有用对应的 私钥 才能 进行解密。
      * 如果使用 私钥 对数据 进行加密，只有用对应的 公钥 才能 进行解密。
+     *
      * @param keyStr
      * @param data
      * @return
@@ -35,6 +36,7 @@ public class RSAUtils {
      * 解密（对外暴露）
      * 如果使用 公钥 对数据 进行加密，只有用对应的 私钥 才能 进行解密。
      * 如果使用 私钥 对数据 进行加密，只有用对应的 公钥 才能 进行解密。
+     *
      * @param keyStr
      * @param data
      * @return
@@ -49,6 +51,7 @@ public class RSAUtils {
 
     /**
      * 加密
+     *
      * @param key
      * @param srcBytes
      * @return
@@ -60,7 +63,7 @@ public class RSAUtils {
                 Cipher cipher = Cipher.getInstance("RSA");
                 //对Cipher对象进行初始化
                 cipher.init(Cipher.ENCRYPT_MODE, key);
-                //加密，结果保存进resultBytes，并返回
+                //加密，并返回
                 return cipher.doFinal(srcBytes);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -82,7 +85,7 @@ public class RSAUtils {
                 Cipher cipher = Cipher.getInstance("RSA");
                 //对Cipher对象进行初始化
                 cipher.init(Cipher.DECRYPT_MODE, key);
-                //解密并将结果保存进resultBytes
+                //解密并返回结果
                 return cipher.doFinal(encBytes);
             } catch (Exception e) {
                 e.printStackTrace();
@@ -93,21 +96,23 @@ public class RSAUtils {
 
     /**
      * 根据key获取公有或者私有key对象
+     *
      * @param keyStr
      * @param isPublicKey
      * @return
      * @throws Exception
      */
     private static Key getKey(String keyStr, Boolean isPublicKey) throws Exception {
-        if(isPublicKey){
+        if (isPublicKey) {
             return getPublicKey(keyStr);
-        }else{
+        } else {
             return getPrivateKey(keyStr);
         }
     }
 
     /**
      * 根据公有key获取公有key对象
+     *
      * @param key
      * @return
      * @throws Exception
@@ -121,19 +126,21 @@ public class RSAUtils {
 
     /**
      * 根据私有key获取私有对象
+     *
      * @param key
      * @return
      * @throws Exception
      */
     private static RSAPrivateKey getPrivateKey(String key) throws Exception {
         byte[] keyBytes = Base64.getDecoder().decode(key);
-         PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
+        PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(keyBytes);
         KeyFactory keyFactory = KeyFactory.getInstance("RSA");
         return (RSAPrivateKey) keyFactory.generatePrivate(keySpec);
     }
 
     /**
      * 获取公有/私有Key
+     *
      * @return
      */
     private static KeyPair getRSAKey() {
@@ -141,7 +148,7 @@ public class RSAUtils {
         try {
             //生成公钥和私钥对，基于RSA算法生成对象
             KeyPairGenerator keyPairGen = KeyPairGenerator.getInstance("RSA");
-            //初始化密钥对生成器，密钥大小为512位
+            //初始化密钥对生成器，密钥大小为1024位
             keyPairGen.initialize(1024);
             //生成一个密钥对，保存在keyPair中
             keyPair = keyPairGen.generateKeyPair();
@@ -153,6 +160,7 @@ public class RSAUtils {
 
     /**
      * 对字符串进行BASE64Decoder
+     *
      * @param key
      * @return
      * @throws Exception
@@ -163,12 +171,13 @@ public class RSAUtils {
 
     /**
      * 对字节数组进行BASE64Encoder
+     *
      * @param key
      * @return
      * @throws Exception
      */
     private static String encryptBASE64(byte[] key) {
-        return  Base64.getEncoder().encodeToString(key);
+        return Base64.getEncoder().encodeToString(key);
     }
 
     public static void main(String[] args) {
